@@ -14,7 +14,22 @@ public class AccountState extends AbstractListModel {
         this.accounts = new ArrayList<>();
     }
     
+    public void addSavingsAccount(){
+        
+    }
+    public void addCheckingAccount(){
+        
+    }
     
+    public Object find(String KeyWord){
+        throw new UnsupportedOperationException("not implemented");
+    }
+    
+    public void sort(int type){
+        
+    }
+    
+    //loading and saving methods here
     
     @Override
     public int getSize() {
@@ -30,10 +45,4 @@ public class AccountState extends AbstractListModel {
     public String toString(){
         return "";
     }
-    // add methods to find, add, delete, and update accounts
-    // add methods to sort accounts on required fields
-    // add methods to load/save accounts from/to a binary file
-    // add methods to load/save accounts from/to a text file
-    // add methods to load/save accounts from/to an XML file
-    // add other methods as needed
 }
