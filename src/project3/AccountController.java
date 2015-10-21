@@ -9,12 +9,23 @@ package project3;
  *
  * @author Preston Garno
  */
+
 public class AccountController {
     
     private AccountState model;
+    private AccountPanel gui;
     
     public AccountController(){
         this.model = new AccountState();
+        this.gui = new AccountPanel();
+    }
+    
+    public void getAccountState() {
+        
+    }
+    
+    public AccountPanel getGui(){
+        return gui;
     }
     
     //controller is anything that takes input from the user that is used 

@@ -10,8 +10,9 @@ public class CheckingAccount extends Account {
     private static final long serialVersionUID = 1L;
     private double monthlyFee;
 
-    public CheckingAccount(int accountNumber, String owner, GregorianCalendar dateOpened, double balance) {
+    public CheckingAccount(int accountNumber, String owner, GregorianCalendar dateOpened, double balance, double MonthlyFee) {
         super(accountNumber, owner, dateOpened, balance);
+        this.monthlyFee = monthlyFee;
     }
 
     // getter, setter, tostring and equals
@@ -28,5 +29,19 @@ public class CheckingAccount extends Account {
         return "Account{" + "accountNumber=" + super.getAccountNumber() + ", owner=" + super.getOwner() + ", dateOpened=" + getDateOpened() + ", balance=" + getBalance() + ", monthlyFee =" + monthlyFee + '}';
 
     }
-
+    
+    @Override
+    public double getMinBalance() {
+        return 0;
+    }
+    @Override
+    public double getInterestRate() {
+        return 0;
+    }
+    @Override
+    public void setMinBalance(double minBalance) {
+    }
+    @Override
+    public void setInterestRate(double interestRate) {
+    }
 }

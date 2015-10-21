@@ -20,7 +20,14 @@ public abstract class Account implements Serializable {
         this.dateOpened = dateOpened;
         this.balance = balance;
     }
-
+    
+    public abstract void setInterestRate(double interestRate);
+    public abstract void setMinBalance(double minBalance);
+    public abstract void setMonthlyFee(double monthlyFee);
+    public abstract double getInterestRate();
+    public abstract double getMinBalance();
+    public abstract double getMonthlyFee();
+    
     public void setAccountNumber(int accountNumber) {
         this.accountNumber = accountNumber;
     }
