@@ -5,6 +5,9 @@
  */
 package project3;
 
+import java.util.GregorianCalendar;
+import javax.swing.AbstractListModel;
+
 /**
  *
  * @author Preston Garno
@@ -20,15 +23,31 @@ public class AccountController {
         this.gui = new AccountPanel();
     }
     
-    public void getAccountState() {
-        
+    public AbstractListModel getAccountState() {
+        return model;
     }
     
     public AccountPanel getGui(){
         return gui;
     }
     
-    //controller is anything that takes input from the user that is used 
-    //to cause the model to transition state
-    //joins together the model and the view basically
+    public void addCheckingAccount(int accountNumber, String owner, GregorianCalendar dateOpened, double balance, double MonthlyFee){
+        model.addCheckingAccount(accountNumber, owner, dateOpened, balance, MonthlyFee);
+    }
+    
+    public void addSavingsAccount(int accountNumber, String owner, GregorianCalendar dateOpened, double balance, double minBalance, double interestRate){
+        model.addSavingsAccount(accountNumber, owner, dateOpened, balance, minBalance, interestRate);
+    }
+    
+    public void deleteAccount(int index){
+        model.deleteAccount(index);
+    }
+    
+    public void updateCheckingAccount(int index, int accountNumber, String owner, GregorianCalendar dateOpened, double balance, double MonthlyFee){
+        model.updateCheckingAccount(index, accountNumber, owner, dateOpened, balance, MonthlyFee);
+    }
+    
+    public void updateSavingsAccount(int index, int accountNumber, String owner, GregorianCalendar dateOpened, double balance, double minBalance, double interestRate){
+        model.updateSavingsAccount(index, accountNumber, owner, dateOpened, balance, minBalance, interestRate);
+    }
 }
