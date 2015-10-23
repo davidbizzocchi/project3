@@ -5,8 +5,11 @@
  */
 package project3;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.GregorianCalendar;
 import javax.swing.AbstractListModel;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *
@@ -20,7 +23,10 @@ public class AccountController {
     
     public AccountController(){
         this.model = new AccountState();
-        this.gui = new AccountPanel();
+        model.addCheckingAccount(1234, "John", new GregorianCalendar(2014, 9, 23), 555.55, 33.33);
+        model.addCheckingAccount(4321, "Dave", new GregorianCalendar(2015, 10, 23), 555.55, 33.33);
+        this.gui = new AccountPanel(model);
+        setActions();
     }
     
     public AbstractListModel getAccountState() {
@@ -29,6 +35,11 @@ public class AccountController {
     
     public AccountPanel getGui(){
         return gui;
+    }
+    
+    public void setActions(){
+        gui.setActionTopMenu(forEditSelected);
+        gui.setActionButtons(forAddButton);
     }
     
     public void addCheckingAccount(int accountNumber, String owner, GregorianCalendar dateOpened, double balance, double MonthlyFee){
@@ -50,4 +61,23 @@ public class AccountController {
     public void updateSavingsAccount(int index, int accountNumber, String owner, GregorianCalendar dateOpened, double balance, double minBalance, double interestRate){
         model.updateSavingsAccount(index, accountNumber, owner, dateOpened, balance, minBalance, interestRate);
     }
+    
+    ActionListener forEditSelected = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println(";)");
+        }
+    };
+    
+    ActionListener forAddButton = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (gui.isCheckingSelected() == true){
+                System.out.println("Checking is selected!");
+                //model.addCheckingAccount(accountNumber, null, null, balance, MonthlyFee);
+            } else {
+                //model.addSavingsAccount(accountNumber, null, null, balance, minBalance, interestRate);
+            }
+        }
+    };
 }

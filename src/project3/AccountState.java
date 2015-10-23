@@ -12,7 +12,12 @@ public class AccountState extends AbstractListModel {
     private ArrayList<Account> accounts;
     
     public AccountState(){
+        accounts = new ArrayList<>();
         this.accounts = new ArrayList<>();
+    }
+    
+    public ArrayList getAccounts(){
+        return accounts;
     }
     
     public void addSavingsAccount(int accountNumber, String owner, GregorianCalendar dateOpened, double balance, double minBalance, double interestRate){
@@ -52,7 +57,7 @@ public class AccountState extends AbstractListModel {
         
     }
     
-    //loading and saving methods here
+    //loading and saving methods
     
     @Override
     public int getSize() {
@@ -66,6 +71,6 @@ public class AccountState extends AbstractListModel {
     
     @Override
     public String toString(){
-        return "";
+        return "IS THIS THING ON";
     }
 }

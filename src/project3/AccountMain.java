@@ -14,7 +14,7 @@ public class AccountMain {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         AccountController c = new AccountController();
         frame.add(c.getGui());
-        frame.setResizable(false);
+        //frame.setResizable(false);
         frame.pack();
         frame.setVisible(true);
     }

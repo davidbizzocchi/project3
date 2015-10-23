@@ -1,6 +1,7 @@
 package project3;
 
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * @author Preston Garno
@@ -10,7 +11,7 @@ public class CheckingAccount extends Account {
     private static final long serialVersionUID = 1L;
     private double monthlyFee;
 
-    public CheckingAccount(int accountNumber, String owner, GregorianCalendar dateOpened, double balance, double MonthlyFee) {
+    public CheckingAccount(int accountNumber, String owner, GregorianCalendar dateOpened, double balance, double monthlyFee) {
         super(accountNumber, owner, dateOpened, balance);
         this.monthlyFee = monthlyFee;
     }
@@ -26,7 +27,7 @@ public class CheckingAccount extends Account {
 
     @Override
     public String toString() {
-        return "Account{" + "accountNumber=" + super.getAccountNumber() + ", owner=" + super.getOwner() + ", dateOpened=" + getDateOpened() + ", balance=" + getBalance() + ", monthlyFee =" + monthlyFee + '}';
+        return Integer.toString(super.getAccountNumber()) + "  " + getOwner() + "  " + super.dateToString() + "  $" + getBalance() + "   Checking   $" + getMonthlyFee() + "/month";
 
     }
     
