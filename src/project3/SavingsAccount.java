@@ -44,4 +44,9 @@ public class SavingsAccount extends Account {
     public String toString() {
         return Integer.toString(super.getAccountNumber()) + "  " + getOwner() + "  " + super.dateToString() + "  $" + getBalance() + "   Savings   $" + getInterestRate()+ "%   " + getMinBalance() + " min. bal.";
     }
+
+	@Override
+	public String getAccountTypeDescription() {
+		return "Savings";
+	}
 }

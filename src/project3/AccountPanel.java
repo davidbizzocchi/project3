@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
@@ -56,6 +57,7 @@ public class AccountPanel extends JPanel {
         add(j);
 
         JSplitPane bottomPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        bottomPanel.setResizeWeight(1.0);
         bottomPanel.setEnabled(false);
         bottomPanel.add(input);
         bottomPanel.add(buttons, JSplitPane.RIGHT);
@@ -63,15 +65,13 @@ public class AccountPanel extends JPanel {
         add(bottomPanel, BorderLayout.PAGE_END);
     }
 
-    private class data extends JList {
-
+    private class data extends JTable {
         public data() {
             setModel(accounts);
-            System.out.println(accounts.getAccounts().size());
         }
     }
     public int getSelectedAccountIndex(){
-    	return accountWindow.getSelectedIndex();
+    	return accountWindow.getSelectedRow();
     }
 
     private class menu extends JMenuBar {
@@ -158,7 +158,8 @@ public class AccountPanel extends JPanel {
             SavingsSelect.add(save);
             SavingsSelect.add(typeSavings);
             add(SavingsSelect);
-
+            // set gridlayout to add vertically and fix this 
+            // long ass waste of space
             add(number);
             add(fields[0]);
 
@@ -166,10 +167,8 @@ public class AccountPanel extends JPanel {
             add(fields[1]);
 
             add(date);
-            // add class with JComboboxes bruh
             add(dateSelectionPane);
-            //add(fields[2]);
-
+            
             add(bal);
             add(fields[3]);
 
@@ -223,10 +222,11 @@ public class AccountPanel extends JPanel {
 
     }
 
-    public void setActionButtons(ActionListener Add, ActionListener Update, ActionListener Delete) {
+    public void setActionButtons(ActionListener Add, ActionListener Update, ActionListener Delete, ActionListener Clear) {
         buttons.Add.addActionListener(Add);
         buttons.Update.addActionListener(Update);
         buttons.Delete.addActionListener(Delete);
+        buttons.Clear.addActionListener(Clear);
     }
 
     public String getText(int index) {
@@ -251,6 +251,12 @@ public class AccountPanel extends JPanel {
             textFromFields[i] = fields[i].getText();
         }
         return textFromFields;
+    }
+    
+    public void clearTextFields(){
+    	for(int i = 0; i < fields.length; i++){
+    		fields[i].setText("");
+    	}
     }
 
     private class DateSelection extends JPanel {
@@ -306,7 +312,8 @@ public class AccountPanel extends JPanel {
                 } else if (daysBox.getItemCount() == 30) {
                     daysBox.addItem("31");
                 } 
-
+                //better logic here - February sometimes doesnt set to 28 
+                //I wrote this half drunk at 2:30 AM
                 if (s.equals("February")) {
                     if (daysBox.getItemCount() == 31) {
                         daysBox.removeItemAt(30);
@@ -346,7 +353,7 @@ public class AccountPanel extends JPanel {
             year = Integer.valueOf(yearsBox.getSelectedItem().toString());
             
         	GregorianCalendar dateOpened = new GregorianCalendar(year, month, day);
-        	System.out.println(month+"/"+day+"/"+year);
+        	//sSystem.out.println(month+"/"+day+"/"+year);
         	return dateOpened;
         }
     }

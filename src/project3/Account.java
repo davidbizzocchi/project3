@@ -29,6 +29,7 @@ public abstract class Account implements Serializable {
     public abstract double getInterestRate();
     public abstract double getMinBalance();
     public abstract double getMonthlyFee();
+    public abstract String getAccountTypeDescription();
     
     public void setAccountNumber(int accountNumber) {
         this.accountNumber = accountNumber;

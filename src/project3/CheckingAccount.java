@@ -45,4 +45,9 @@ public class CheckingAccount extends Account {
     @Override
     public void setInterestRate(double interestRate) {
     }
+
+	@Override
+	public String getAccountTypeDescription() {
+		return "Checking";
+	}
 }

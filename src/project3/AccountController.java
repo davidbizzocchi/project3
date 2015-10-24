@@ -18,13 +18,11 @@ public class AccountController {
 
     public AccountController() {
         this.model = new AccountState();
-        model.addAccount(new CheckingAccount(1234, "John", new GregorianCalendar(2014, 9, 23), 555.55, 33.33));
-        model.addAccount(new CheckingAccount(4321, "Dave", new GregorianCalendar(2015, 10, 23), 555.55, 33.33));
         this.gui = new AccountPanel(model);
         setActions();
     }
 
-    public AbstractListModel getAccountState() {
+    public AbstractTableModel getAccountState() {
         return model;
     }
 
@@ -34,11 +32,7 @@ public class AccountController {
 
     public void setActions() {
         gui.setActionTopMenu(forEditSelected);
-        gui.setActionButtons(forAddButton, forUpdateButton, forDeleteButton);
-    }
-
-    public void deleteAccount(int index) {
-        model.deleteAccount(index);
+        gui.setActionButtons(forAddButton, forUpdateButton, forDeleteButton, forClearButton);
     }
 
     ActionListener forEditSelected = new ActionListener() {
@@ -47,13 +41,19 @@ public class AccountController {
             System.out.println(";)");
         }
     };
+    
+    ActionListener forClearButton = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gui.clearTextFields();
+		}
+	};
 
     ActionListener forAddButton = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             String[] textFromFields = gui.getInputFields();
             if (gui.isCheckingSelected() == true) {
-                System.out.println("Checking is selected!");
                 int accountNumber = Integer.parseInt(textFromFields[0]);
                 String accountOwner = textFromFields[1];
                 //get and format date field temp fix to set fixed date
@@ -62,7 +62,6 @@ public class AccountController {
                 double monthlyFee = Double.parseDouble(textFromFields[4]);
                 model.addAccount(new CheckingAccount(accountNumber, accountOwner, dateOpened, accountBalance, monthlyFee));
             } else {
-                System.out.println("Savings is selected!");
                 int accountNumber = Integer.parseInt(textFromFields[0]);
                 String accountOwner = textFromFields[1];
                 //get and format date field temp fix to set fixed date
@@ -78,25 +77,17 @@ public class AccountController {
     ActionListener forUpdateButton = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-        	//model.updateaccount isn't getting called
-        	//gui.ischeckingselected doesnt work correctly
-        	
             String[] textFromFields = gui.getInputFields();
             if (gui.isCheckingSelected() == true) {
-                System.out.println("Checking is selected!");
                 int accountNumber = Integer.parseInt(textFromFields[0]);
                 String accountOwner = textFromFields[1];
-                //get and format date field temp fix to set fixed date
                 GregorianCalendar dateOpened = gui.getSelectedDate();
                 double accountBalance = Double.parseDouble(textFromFields[3]);
                 double monthlyFee = Double.parseDouble(textFromFields[4]);
-                //LOL getSource()
                 model.updateAccount(gui.getSelectedAccountIndex(), new CheckingAccount(accountNumber, accountOwner, dateOpened, accountBalance, monthlyFee));
             } else {
-                System.out.println("Savings is selected!");
                 int accountNumber = Integer.parseInt(textFromFields[0]);
                 String accountOwner = textFromFields[1];
-                //get and format date field temp fix to set fixed date
                 GregorianCalendar dateOpened = gui.getSelectedDate();
                 double accountBalance = Double.parseDouble(textFromFields[3]);
                 double minBalance = Double.parseDouble(textFromFields[5]);
@@ -108,9 +99,12 @@ public class AccountController {
     
     ActionListener forDeleteButton = new ActionListener() {
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			//
-			model.deleteAccount(gui.getSelectedAccountIndex());
+		public void actionPerformed(ActionEvent e) {
+			//add confirm deletion window
+			int indexForDeleted = gui.getSelectedAccountIndex();
+			if(indexForDeleted != -1){
+				model.deleteAccount(indexForDeleted);
+			}
 		}
 	};
 }
