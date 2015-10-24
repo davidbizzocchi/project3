@@ -5,8 +5,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 
 import javax.swing.AbstractListModel;
+=======
+>>>>>>> 524b416d8db06c4b4c17f7a9c15d7f2638fc04d3
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -200,11 +203,18 @@ public class AccountPanel extends JPanel {
         }
     }
     
+<<<<<<< HEAD
     public String[] getInputFields(){
     	String[] textFromFields = new String[7];
     	for (int i = 0; i < 7; i++){
     		textFromFields[i] = fields[i].getText();
     	}
         return textFromFields;
+=======
+    public JTextField[] getInputFields(){
+        return fields;
+        //last move - from the fields, take text, validate input, pass to model
+        // creating a new account object
+>>>>>>> 524b416d8db06c4b4c17f7a9c15d7f2638fc04d3
     }
 }
