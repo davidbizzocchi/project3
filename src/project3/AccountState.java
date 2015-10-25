@@ -9,11 +9,8 @@ import javax.swing.table.AbstractTableModel;
  * @author Preston Garno
  */
 public class AccountState extends AbstractTableModel {
-    // essentially BankModel
-	// Make it so that saved any account object that gets passed to it
     private ArrayList<Account> accounts;
-    //MAKE REUSABLE
-
+    
     public AccountState(){
         accounts = new ArrayList<>();
         this.accounts = new ArrayList<>();
@@ -34,7 +31,9 @@ public class AccountState extends AbstractTableModel {
     }
     
     public void updateAccount(int index, Account a){
-    	accounts.set(index, a);
+    	if(index != -1){
+    		accounts.set(index, a);
+    	}
     	fireTableDataChanged();
     }
     
@@ -70,15 +69,20 @@ public class AccountState extends AbstractTableModel {
 		case 4:
 			return accounts.get(row).getAccountTypeDescription();
 		case 5:
-			if(accounts.get(row) instanceof CheckingAccount){
-				return accounts.get(row).getMonthlyFee();
-			} else {
+			if (accounts.get(row).getMonthlyFee() == -1){
 				return "--";
+			}else{
+				return accounts.get(row).getMonthlyFee();
 			}
 		case 6:
-			return accounts.get(row).getInterestRate();
+			String returnValue = Double.toString(accounts.get(row).getInterestRate()) + "%";
+			return returnValue;
 		case 7:
-			return accounts.get(row).getMinBalance();
+			if (accounts.get(row).getMinBalance() == -1){
+				return "--";
+			} else {
+				return accounts.get(row).getMinBalance();
+			}
 		default:
 			return null;
 		}

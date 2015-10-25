@@ -13,7 +13,11 @@ public class CheckingAccount extends Account {
 
     public CheckingAccount(int accountNumber, String owner, GregorianCalendar dateOpened, double balance, double monthlyFee) {
         super(accountNumber, owner, dateOpened, balance);
-        this.monthlyFee = monthlyFee;
+        if (monthlyFee > 0){
+        	this.monthlyFee = monthlyFee;
+        } else {
+        	throw new IllegalArgumentException();
+        }
     }
 
     // getter, setter, tostring and equals
@@ -22,7 +26,11 @@ public class CheckingAccount extends Account {
     }
 
     public void setMonthlyFee(double monthlyFee) {
-        this.monthlyFee = monthlyFee;
+        if (monthlyFee > 0){
+        	this.monthlyFee = monthlyFee;
+        } else {
+        	throw new IllegalArgumentException();
+        }
     }
 
     @Override
@@ -33,7 +41,7 @@ public class CheckingAccount extends Account {
     
     @Override
     public double getMinBalance() {
-        return 0;
+        return -1;
     }
     @Override
     public double getInterestRate() {

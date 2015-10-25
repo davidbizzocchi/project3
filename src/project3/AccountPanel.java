@@ -121,22 +121,22 @@ public class AccountPanel extends JPanel {
             accountTypeSelect.add(typeChecking);
             accountTypeSelect.add(typeSavings);
             setLayout(new GridLayout(8, 2, 0, 0));
-            fields = new JTextField[7];
-            for (int i = 0; i < 7; i++) {
+            fields = new JTextField[6];
+            for (int i = 0; i < 6; i++) {
                 fields[i] = new JTextField(15);
                 fields[i].setHorizontalAlignment(JTextField.CENTER);
             }
+            fields[4].setEnabled(false);
             fields[5].setEnabled(false);
-            fields[6].setEnabled(false);
 
             JPanel CheckingSelect = new JPanel();
             typeChecking.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if (typeChecking.isSelected()){
-						fields[4].setEnabled(true);
+						fields[3].setEnabled(true);
+						fields[4].setEnabled(false);
 						fields[5].setEnabled(false);
-						fields[6].setEnabled(false);
 					}
 				}
 			});
@@ -149,9 +149,9 @@ public class AccountPanel extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if (typeSavings.isSelected()){
-						fields[4].setEnabled(false);
+						fields[3].setEnabled(false);
+						fields[4].setEnabled(true);
 						fields[5].setEnabled(true);
-						fields[6].setEnabled(true);
 					}
 				}
 			});
@@ -170,16 +170,16 @@ public class AccountPanel extends JPanel {
             add(dateSelectionPane);
             
             add(bal);
-            add(fields[3]);
+            add(fields[2]);
 
             add(fee);
-            add(fields[4]);
+            add(fields[3]);
 
             add(rate);
-            add(fields[5]);
+            add(fields[4]);
 
             add(min);
-            add(fields[6]);
+            add(fields[5]);
         }
 
         public boolean getAccountType() {
@@ -247,7 +247,7 @@ public class AccountPanel extends JPanel {
 
     public String[] getInputFields() {
         String[] textFromFields = new String[7];
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 6; i++) {
             textFromFields[i] = fields[i].getText();
         }
         return textFromFields;
@@ -313,7 +313,6 @@ public class AccountPanel extends JPanel {
                     daysBox.addItem("31");
                 } 
                 //better logic here - February sometimes doesnt set to 28 
-                //I wrote this half drunk at 2:30 AM
                 if (s.equals("February")) {
                     if (daysBox.getItemCount() == 31) {
                         daysBox.removeItemAt(30);
@@ -360,5 +359,13 @@ public class AccountPanel extends JPanel {
     
     public GregorianCalendar getSelectedDate(){
     	return dateSelectionPane.getDateAsGregorian();
+    }
+    
+    public void setSelectedAccount(int index){
+    	try{
+        	accountWindow.addRowSelectionInterval(index, index);
+    	} catch (IllegalArgumentException n){
+    		//don't select anything then
+    	}
     }
 }

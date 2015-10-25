@@ -32,11 +32,19 @@ public abstract class Account implements Serializable {
     public abstract String getAccountTypeDescription();
     
     public void setAccountNumber(int accountNumber) {
-        this.accountNumber = accountNumber;
+        if(accountNumber > 0){
+        	this.accountNumber = accountNumber;
+        } else {
+        	throw new IllegalArgumentException();
+        }
     }
 
     public void setOwner(String owner) {
-        this.owner = owner;
+        if (owner.trim().isEmpty() || owner.equals(null)){
+        	throw new IllegalArgumentException();
+        } else {
+        	this.owner = owner;
+        }
     }
 
     public void setDateOpened(GregorianCalendar dateOpened) {
@@ -44,7 +52,7 @@ public abstract class Account implements Serializable {
     }
 
     public void setBalance(double balance) {
-        this.balance = balance;
+    	this.balance = balance;
     }
 
     public static long getSerialVersionUID() {

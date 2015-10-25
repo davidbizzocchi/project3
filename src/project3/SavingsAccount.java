@@ -12,8 +12,15 @@ public class SavingsAccount extends Account {
 
     public SavingsAccount(int accountNumber, String owner, GregorianCalendar dateOpened, double balance, double minBalance, double interestRate) {
         super(accountNumber, owner, dateOpened, balance);
-        this.minBalance = minBalance;
-        this.interestRate = interestRate;
+        if (minBalance > balance){
+        	throw new IllegalArgumentException();
+        } else {
+        	this.minBalance = minBalance;
+        }
+        
+        if (interestRate < 0){
+        	throw new IllegalArgumentException();
+        }
     }
     
     @Override
@@ -26,15 +33,23 @@ public class SavingsAccount extends Account {
     }
     @Override
     public void setMinBalance(double minBalance) {
-        this.minBalance = minBalance;
+    	if (minBalance > getBalance()){
+        	throw new IllegalArgumentException();
+        } else {
+        	this.minBalance = minBalance;
+        }
     }
     @Override
     public void setInterestRate(double interestRate) {
-        this.interestRate = interestRate;
+    	if (interestRate < 0){
+        	throw new IllegalArgumentException();
+        } else {
+        	this.interestRate = interestRate;
+        }
     }
     @Override
     public double getMonthlyFee(){
-        return 0;
+        return -1;
     }
     @Override
     public void setMonthlyFee(double MonthlyFee){
