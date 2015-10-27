@@ -14,11 +14,11 @@ public class AccountMain {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //put main in the controller class
         JFrame frame = new JFrame("Accounts");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         AccountController c = new AccountController();
         frame.add(c.getGui());
-        //frame.setResizable(false);
         frame.pack();
         frame.setVisible(true);
     }

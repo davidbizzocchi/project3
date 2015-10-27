@@ -17,7 +17,11 @@ public abstract class Account implements Serializable {
     private double balance;
 
     public Account(int accountNumber, String owner, GregorianCalendar dateOpened, double balance) {
-        this.accountNumber = accountNumber;
+        if (accountNumber > 0){
+            this.accountNumber = accountNumber;
+        } else {
+            throw new IllegalArgumentException();
+        }
         this.owner = owner;
         this.dateOpened = dateOpened;
         this.balance = balance;

@@ -3,20 +3,17 @@ package project3;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.text.DateFormatSymbols;
 import java.util.GregorianCalendar;
-import javax.swing.AbstractListModel;
-import javax.swing.Action;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -26,22 +23,34 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 /**
  * @author Preston Garno
  */
 public class AccountPanel extends JPanel {
-
+	
+	/**JTable model set to Accounts model*/
     private data accountWindow;
+    /**object of the top menu*/
     private menu topMenu;
+    /**panel with labels and TextFields for user input*/
     private inputFields input;
+    /**JPanel for buttons on GUI*/
     private inputActions buttons;
+    /**AccountState the model*/
     private AccountState accounts;
+    /**Array of JTextfields for user input, instance variable for accessibility*/
     private JTextField[] fields;
+    /**Date picker*/
     private DateSelection dateSelectionPane;
+    /**Groups buttons specifying account type*/
     ButtonGroup accountTypeSelect;
-
+    
+    
+    /******************************************
+    * Constructor for class, instantiates instance variables, 
+    * sets size of panels, sets layout and adds panels
+    ******************************************/
     public AccountPanel(AccountState accounts) {
         this.accounts = accounts;
         accountTypeSelect = new ButtonGroup();
@@ -63,38 +72,50 @@ public class AccountPanel extends JPanel {
         bottomPanel.add(buttons, JSplitPane.RIGHT);
 
         add(bottomPanel, BorderLayout.PAGE_END);
+        setPreferredSize(new Dimension(accountWindow.getColumnModel().getTotalColumnWidth(), 800));
     }
-
+    
+    
+    /******************************************
+    * Class extends JTable, adds A
+    ******************************************/
     private class data extends JTable {
         public data() {
             setModel(accounts);
         }
     }
-    public int getSelectedAccountIndex(){
-    	return accountWindow.getSelectedRow();
+
+    public int getSelectedAccountIndex() {
+        return accountWindow.getSelectedRow();
     }
 
     private class menu extends JMenuBar {
 
         JMenu File, Edit, Sort;
+        
         JMenuItem EditSelected;
         JMenuItem byOwner, byDate, byAccount;
+        JMenuItem saveBinary, openBinary;
 
         public menu() {
             File = new JMenu("File");
             Edit = new JMenu("Edit");
             Sort = new JMenu("Sort");
-
+            
+            saveBinary = new JMenuItem("Save As Binary");
+            openBinary = new JMenuItem("Open Binary File");
             EditSelected = new JMenuItem("EditSelected");
             byAccount = new JMenuItem("Sort By Account");
             byDate = new JMenuItem("Sort By Date");
             byOwner = new JMenuItem("Sort By Owner");
-
+            
+            File.add(saveBinary);
+            File.add(openBinary);
             Edit.add(EditSelected);
             Sort.add(byAccount);
             Sort.add(byDate);
             Sort.add(byOwner);
-
+            
             add(File);
             add(Edit);
             add(Sort);
@@ -116,7 +137,7 @@ public class AccountPanel extends JPanel {
         JLabel min = new JLabel("  Minimum Balance:");
 
         public inputFields() {
-        	dateSelectionPane = new DateSelection();
+            dateSelectionPane = new DateSelection();
             typeChecking.setSelected(true);
             accountTypeSelect.add(typeChecking);
             accountTypeSelect.add(typeSavings);
@@ -131,30 +152,30 @@ public class AccountPanel extends JPanel {
 
             JPanel CheckingSelect = new JPanel();
             typeChecking.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (typeChecking.isSelected()){
-						fields[3].setEnabled(true);
-						fields[4].setEnabled(false);
-						fields[5].setEnabled(false);
-					}
-				}
-			});
+                @Override
+                public void actionPerformed(ActionEvent arg0) {
+                    if (typeChecking.isSelected()) {
+                        fields[3].setEnabled(true);
+                        fields[4].setEnabled(false);
+                        fields[5].setEnabled(false);
+                    }
+                }
+            });
             CheckingSelect.add(chk);
             CheckingSelect.add(typeChecking);
             add(CheckingSelect);
 
             JPanel SavingsSelect = new JPanel();
             typeSavings.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (typeSavings.isSelected()){
-						fields[3].setEnabled(false);
-						fields[4].setEnabled(true);
-						fields[5].setEnabled(true);
-					}
-				}
-			});
+                @Override
+                public void actionPerformed(ActionEvent arg0) {
+                    if (typeSavings.isSelected()) {
+                        fields[3].setEnabled(false);
+                        fields[4].setEnabled(true);
+                        fields[5].setEnabled(true);
+                    }
+                }
+            });
             SavingsSelect.add(save);
             SavingsSelect.add(typeSavings);
             add(SavingsSelect);
@@ -168,7 +189,7 @@ public class AccountPanel extends JPanel {
 
             add(date);
             add(dateSelectionPane);
-            
+
             add(bal);
             add(fields[2]);
 
@@ -210,12 +231,10 @@ public class AccountPanel extends JPanel {
         }
     }
 
-    public void setActionWindow(data window) {
-    	
-    }
-
-    public void setActionTopMenu(ActionListener forEditSelected) {
+    public void setActionTopMenu(ActionListener forSaveAsBinary, ActionListener forOpenBinary, ActionListener forEditSelected) {
         topMenu.EditSelected.addActionListener(forEditSelected);
+        topMenu.openBinary.addActionListener(forOpenBinary);
+        topMenu.saveBinary.addActionListener(forSaveAsBinary);
     }
 
     public void setActionInput(inputFields input) {
@@ -252,11 +271,11 @@ public class AccountPanel extends JPanel {
         }
         return textFromFields;
     }
-    
-    public void clearTextFields(){
-    	for(int i = 0; i < fields.length; i++){
-    		fields[i].setText("");
-    	}
+
+    public void clearTextFields() {
+        for (int i = 0; i < fields.length; i++) {
+            fields[i].setText("");
+        }
     }
 
     private class DateSelection extends JPanel {
@@ -311,7 +330,7 @@ public class AccountPanel extends JPanel {
                     }
                 } else if (daysBox.getItemCount() == 30) {
                     daysBox.addItem("31");
-                } 
+                }
                 //better logic here - February sometimes doesnt set to 28 
                 if (s.equals("February")) {
                     if (daysBox.getItemCount() == 31) {
@@ -330,42 +349,64 @@ public class AccountPanel extends JPanel {
 
             }
         };
-        
-        public GregorianCalendar getDateAsGregorian(){
-        	DateFormatSymbols dfs = new DateFormatSymbols();
+
+        public GregorianCalendar getDateAsGregorian() {
+            DateFormatSymbols dfs = new DateFormatSymbols();
             String[] monthsAsString = dfs.getMonths();
-            
+
             String s = (String) monthsBox.getSelectedItem();
-            
-            //gets the month in number format
+
             int month = 13;
-            for (int i = 0; i < 12; i++){
-            	if(s.equals(monthsAsString[i])){
-            		month = i;
-            	}
+            for (int i = 0; i < 12; i++) {
+                if (s.equals(monthsAsString[i])) {
+                    month = i;
+                }
             }
-            
+
             int day;
             day = Integer.valueOf(daysBox.getSelectedItem().toString());
-            
+
             int year;
             year = Integer.valueOf(yearsBox.getSelectedItem().toString());
-            
-        	GregorianCalendar dateOpened = new GregorianCalendar(year, month, day);
-        	//sSystem.out.println(month+"/"+day+"/"+year);
-        	return dateOpened;
+
+            GregorianCalendar dateOpened = new GregorianCalendar(year, month, day);
+            //sSystem.out.println(month+"/"+day+"/"+year);
+            return dateOpened;
         }
     }
-    
-    public GregorianCalendar getSelectedDate(){
-    	return dateSelectionPane.getDateAsGregorian();
+
+    public GregorianCalendar getSelectedDate() {
+        return dateSelectionPane.getDateAsGregorian();
     }
-    
-    public void setSelectedAccount(int index){
-    	try{
-        	accountWindow.addRowSelectionInterval(index, index);
-    	} catch (IllegalArgumentException n){
-    		//don't select anything then
-    	}
+
+    public void setSelectedAccount(int index) {
+        try {
+            accountWindow.addRowSelectionInterval(index, index);
+        } catch (IllegalArgumentException n) {
+            //don't select anything then
+        }
+    }
+
+    public void adjustColumnWidths() {
+        accountWindow.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        Font f = accountWindow.getFont();
+        FontMetrics fm = accountWindow.getFontMetrics(f);
+
+        for (int i = 0; i < accountWindow.getColumnCount(); i++) {
+            int greatestStringLength = fm.stringWidth(accountWindow.getColumnName(i));
+            for (int z = 0; z < accountWindow.getRowCount(); z++) {
+                if (fm.stringWidth(accountWindow.getValueAt(z, i).toString()) > greatestStringLength) {
+                    greatestStringLength = fm.stringWidth(accountWindow.getValueAt(z, i).toString());
+                    accountWindow.getColumnModel().getColumn(i).setPreferredWidth(greatestStringLength + 20);
+                }
+            }
+        }
+        accountWindow.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        // fill window if not already?
+        /*if (accountWindow.getColumnModel().getTotalColumnWidth() < getWidth()){
+            int remainingAmount = getWidth() - accountWindow.getColumnModel().getTotalColumnWidth();
+            int currentNameFieldWidth = accountWindow.getColumnModel().getColumn(1).getWidth();
+            accountWindow.getColumnModel().getColumn(1).setPreferredWidth(remainingAmount + currentNameFieldWidth - 2);
+        }*/
     }
 }
