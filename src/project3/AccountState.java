@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -162,6 +163,12 @@ public class AccountState extends AbstractTableModel {
         objectOut.close();
     }
     
+    
+    /******************************************
+    * Method loads a binary file to the state
+    * @param accountFile the File the ObjectInputStream will read
+    * @throws FileNotFoundException, IOException, {@link ClassNotFoundException}
+    ******************************************/
     public void loadFromBinary(File accountFile) throws IOException, ClassNotFoundException {
     	FileInputStream fileIn;
     	fileIn = new FileInputStream(accountFile);
@@ -173,6 +180,28 @@ public class AccountState extends AbstractTableModel {
     		System.out.print("Something Didn't work!");
     	}
     	fileIn.close();
+    	fireTableDataChanged();
+    }
+    
+    public void saveAsText(File accountFile) throws IOException{
+    	FileWriter writer = new FileWriter(accountFile); 
+    	for(int row = 0; row < accounts.size(); row ++) {
+    		for (int col = 0; col < 8; col++){
+    			writer.write(this.getValueAt(row, col).toString() + ";;");
+    		}
+    		writer.write(System.getProperty( "line.separator" ));
+		}
+    	writer.close();
+    }
+    
+    public void readFromText(ArrayList<Account> accounts){
+    	clearAllAccounts();
+    	this.accounts = accounts;
+    	fireTableDataChanged();
+    }
+    
+    private void clearAllAccounts(){
+    	accounts.clear();
     	fireTableDataChanged();
     }
 }

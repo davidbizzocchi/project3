@@ -95,7 +95,7 @@ public class AccountPanel extends JPanel {
         
         JMenuItem EditSelected;
         JMenuItem byOwner, byDate, byAccount;
-        JMenuItem saveBinary, openBinary;
+        JMenuItem saveBinary, openBinary, saveText, openText;
 
         public menu() {
             File = new JMenu("File");
@@ -104,6 +104,8 @@ public class AccountPanel extends JPanel {
             
             saveBinary = new JMenuItem("Save As Binary");
             openBinary = new JMenuItem("Open Binary File");
+            saveText = new JMenuItem("Save as Text");
+            openText = new JMenuItem("Open from Txt");
             EditSelected = new JMenuItem("EditSelected");
             byAccount = new JMenuItem("Sort By Account");
             byDate = new JMenuItem("Sort By Date");
@@ -111,6 +113,8 @@ public class AccountPanel extends JPanel {
             
             File.add(saveBinary);
             File.add(openBinary);
+            File.add(saveText);
+            File.add(openText);
             Edit.add(EditSelected);
             Sort.add(byAccount);
             Sort.add(byDate);
@@ -231,10 +235,12 @@ public class AccountPanel extends JPanel {
         }
     }
 
-    public void setActionTopMenu(ActionListener forSaveAsBinary, ActionListener forOpenBinary, ActionListener forEditSelected) {
+    public void setActionTopMenu(ActionListener forSaveAsBinary, ActionListener forOpenBinary, ActionListener forSaveText, ActionListener forOpenText,ActionListener forEditSelected) {
         topMenu.EditSelected.addActionListener(forEditSelected);
         topMenu.openBinary.addActionListener(forOpenBinary);
         topMenu.saveBinary.addActionListener(forSaveAsBinary);
+        topMenu.saveText.addActionListener(forSaveText);
+        topMenu.openText.addActionListener(forOpenText);
     }
 
     public void setActionInput(inputFields input) {

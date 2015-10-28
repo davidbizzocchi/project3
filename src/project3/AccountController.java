@@ -5,7 +5,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Scanner;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
@@ -54,7 +58,7 @@ public class AccountController {
     * Attaches the appropriate ActionListeners to the buttons in gui
     ******************************************/
     public void setActions() {
-        gui.setActionTopMenu(forSaveToBinary, forOpenBinary, forEditSelected);
+        gui.setActionTopMenu(forSaveToBinary, forOpenBinary, forSaveToText, forLoadFromText, forEditSelected);
         gui.setActionButtons(forAddButton, forUpdateButton, forDeleteButton, forClearButton);
     }
     
@@ -266,6 +270,112 @@ public class AccountController {
             } catch (ClassNotFoundException class404){
             	class404.printStackTrace();
             }
+		}
+	};
+	
+	
+    /******************************************
+    * ActionListener calls saveAsText() method in the model class, saves to txt file
+    ******************************************/
+    ActionListener forSaveToText = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //set windows look and feel for fileChooser, this one looks
+            //like crap
+            File accountFile = new File(System.getProperty("user.dir"));
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileHidingEnabled(false);
+            if (fileChooser.showSaveDialog(gui) == JFileChooser.APPROVE_OPTION) {
+                accountFile = fileChooser.getSelectedFile();
+            }
+            try {
+                model.saveAsText(accountFile);
+            } catch (FileNotFoundException fileNotFound) {
+                fileNotFound.printStackTrace();
+            } catch (IOException ioExc) {
+                ioExc.printStackTrace();
+            }
+        }
+    };
+    
+    ActionListener forLoadFromText = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+            File accountFile = new File(System.getProperty("user.dir"));
+            ArrayList<String> rawDataRead = new ArrayList<>();
+            ArrayList<Account> newAccounts = new ArrayList<>();
+			JFileChooser fileChooser = new JFileChooser();
+			if (fileChooser.showOpenDialog(gui) == JFileChooser.APPROVE_OPTION) {
+				accountFile = fileChooser.getSelectedFile();
+			}
+			
+			try {
+				Scanner sc = new Scanner(accountFile);
+				while (sc.hasNextLine()) {
+					//array of strings now, just raw data
+		            rawDataRead.add(sc.nextLine());
+		        }
+                gui.adjustColumnWidths();
+            } catch (FileNotFoundException fileNotFound) {
+                fileNotFound.printStackTrace();
+            }
+			
+			for (int i = 0; i < rawDataRead.size(); i++){
+				//surround loop with try catch block, so that it can read files that have a couple lines changed
+				String[] accountDataAsString = rawDataRead.get(i).split(";;");
+				
+				int accountNumber;
+				double balance, fee, interest, minBal;
+				String owner, desc, dateOpened;
+				
+				accountNumber = Integer.parseInt(accountDataAsString[0]);
+				owner = accountDataAsString[1];
+				dateOpened = accountDataAsString[2];
+				balance = Double.parseDouble(accountDataAsString[3]);
+				desc = accountDataAsString[4];
+				try{
+					fee = Double.parseDouble(accountDataAsString[5]);
+				} catch (NumberFormatException n){
+					fee = -1;
+				}
+				
+				String withoutPercentage = accountDataAsString[6].replace("%", "");
+				interest = Double.parseDouble(withoutPercentage);
+				
+				String withoutDashes = accountDataAsString[7].replace("-", "0");
+				minBal = Double.parseDouble(withoutDashes);
+				
+				DateFormatSymbols dfs = new DateFormatSymbols();
+	            String[] monthsAsString = dfs.getMonths();
+	            
+	            String[] splitUpDate = dateOpened.split(" ");
+	            int day,month,year;
+	            
+	            month = 13;
+	            for (int m = 0; m < 12; m++) {
+	                if (splitUpDate[0].equals(monthsAsString[m])) {
+	                    month = m;
+	                }
+	            }
+	            
+	            String withoutComma = splitUpDate[1].replace(",", "");
+	            day = Integer.parseInt(withoutComma);
+	            year = Integer.parseInt(splitUpDate[2]);
+	            
+	            GregorianCalendar date = new GregorianCalendar(year, month, day);
+				
+				if(desc.equals("Checking")){
+					newAccounts.add(new CheckingAccount(accountNumber, owner, date, balance, fee));
+				} else if (desc.equals("Savings")){
+					newAccounts.add(new SavingsAccount(accountNumber, owner, date, balance, interest, minBal));
+				}
+			}
+			if(newAccounts.size()>0){
+				model.readFromText(newAccounts);
+			} else {
+				// throw new error, say unreadable
+				System.out.println("Unreadable file!");
+			}
 		}
 	};
 }
