@@ -96,6 +96,7 @@ public class AccountPanel extends JPanel {
         JMenuItem EditSelected;
         JMenuItem byOwner, byDate, byAccount;
         JMenuItem saveBinary, openBinary, saveText, openText;
+        JMenuItem saveXML, openXML, exit;
 
         public menu() {
             File = new JMenu("File");
@@ -106,6 +107,9 @@ public class AccountPanel extends JPanel {
             openBinary = new JMenuItem("Open Binary File");
             saveText = new JMenuItem("Save as Text");
             openText = new JMenuItem("Open from Txt");
+            saveXML = new JMenuItem("Save as XML");
+            openXML = new JMenuItem("Open from XML");
+            exit = new JMenuItem("Exit");
             EditSelected = new JMenuItem("EditSelected");
             byAccount = new JMenuItem("Sort By Account");
             byDate = new JMenuItem("Sort By Date");
@@ -113,8 +117,14 @@ public class AccountPanel extends JPanel {
             
             File.add(saveBinary);
             File.add(openBinary);
+            File.addSeparator();
             File.add(saveText);
             File.add(openText);
+            File.addSeparator();
+            File.add(saveXML);
+            File.add(openXML);
+            File.addSeparator();
+            File.add(exit);
             Edit.add(EditSelected);
             Sort.add(byAccount);
             Sort.add(byDate);
@@ -235,12 +245,15 @@ public class AccountPanel extends JPanel {
         }
     }
 
-    public void setActionTopMenu(ActionListener forSaveAsBinary, ActionListener forOpenBinary, ActionListener forSaveText, ActionListener forOpenText,ActionListener forEditSelected) {
+    public void setActionTopMenu(ActionListener forSaveAsBinary, ActionListener forOpenBinary, ActionListener forSaveText, ActionListener forOpenText,ActionListener forEditSelected, ActionListener forSaveXML, ActionListener forOpenXML, ActionListener exit) {
         topMenu.EditSelected.addActionListener(forEditSelected);
         topMenu.openBinary.addActionListener(forOpenBinary);
         topMenu.saveBinary.addActionListener(forSaveAsBinary);
         topMenu.saveText.addActionListener(forSaveText);
         topMenu.openText.addActionListener(forOpenText);
+        topMenu.saveXML.addActionListener(forSaveXML);
+        topMenu.openXML.addActionListener(forOpenXML);
+        topMenu.exit.addActionListener(exit);
     }
 
     public void setActionInput(inputFields input) {
