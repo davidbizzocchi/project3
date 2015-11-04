@@ -31,9 +31,13 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- *
+ * Controller that communicates betweeen classes and GUI for bank 
+ * application
+ * 
  * @author Preston Garno
- * @version 0.1
+ * @author David Bizzocchi
+ * 
+ * @version November, 2015
  */
 public class AccountController {
 
@@ -74,8 +78,12 @@ public class AccountController {
 	 * Attaches the appropriate ActionListeners to the buttons in gui
 	 ******************************************/
 	public void setActions() {
-		gui.setActionTopMenu(forSaveToBinary, forOpenBinary, forSaveToText, forLoadFromText, forEditSelected, forSaveXML, forOpenXML, exit);
-		gui.setActionButtons(forAddButton, forUpdateButton, forDeleteButton, forClearButton);
+		gui.setActionTopMenu(forSaveToBinary, 
+				forOpenBinary, forSaveToText, 
+				forLoadFromText, forEditSelected, 
+				forSaveXML, forOpenXML, exit);
+		gui.setActionButtons(forAddButton, 
+				forUpdateButton, forDeleteButton, forClearButton);
 	}
 
 
@@ -116,7 +124,9 @@ public class AccountController {
 			try {
 				accountNumber = Integer.parseInt(textFromFields[0]);
 			} catch (NumberFormatException n) {
-				JOptionPane.showMessageDialog(null, "Invalid Account number!\nMust be a positive integer.");
+				JOptionPane.showMessageDialog(null, 
+						"Invalid Account number!\n"
+						+ "Must be a positive integer.");
 			}
 
 			String accountOwner = textFromFields[1];
@@ -126,7 +136,9 @@ public class AccountController {
 			try {
 				accountBalance = Double.parseDouble(textFromFields[2]);
 			} catch (NumberFormatException n) {
-				JOptionPane.showMessageDialog(null, "Invalid Balance!\nMust be an integer.");
+				JOptionPane.showMessageDialog(null, 
+						"Invalid Balance!\n"
+						+ "Must be an integer.");
 			}
 
 			if (gui.isCheckingSelected() == true) {
@@ -134,26 +146,35 @@ public class AccountController {
 				try {
 					monthlyFee = Double.parseDouble(textFromFields[3]);
 				} catch (NumberFormatException n) {
-					JOptionPane.showMessageDialog(null, "Invalid Monthly Fee!\nMust be a positive integer.");
+					JOptionPane.showMessageDialog(null, 
+							"Invalid Monthly Fee!\n"
+							+ "Must be a positive integer.");
 				}
 				try {
-					model.addAccount(new CheckingAccount(accountNumber, accountOwner, dateOpened, accountBalance, monthlyFee));
+					model.addAccount(new CheckingAccount(accountNumber, 
+							accountOwner, dateOpened, 
+							accountBalance, monthlyFee));
 					gui.setSelectedAccount(model.getRowCount() - 1);
 				} catch (Exception n) {
-					JOptionPane.showMessageDialog(null, "Invalid Input!");
+					JOptionPane.showMessageDialog(null, 
+							"Invalid Input!");
 				}
 			} else {
 				try {
 					minBalance = Double.parseDouble(textFromFields[4]);
 					interestRate = Double.parseDouble(textFromFields[5]);
 				} catch (NumberFormatException f) {
-					JOptionPane.showMessageDialog(null, "Invalid Balance!\nMust be an integer.");
+					JOptionPane.showMessageDialog(null, 
+							"Invalid Balance!\nMust be a number.");
 				}
 				try {
-					model.addAccount(new SavingsAccount(accountNumber, accountOwner, dateOpened, accountBalance, minBalance, interestRate));
+					model.addAccount(new SavingsAccount(accountNumber, 
+							accountOwner, dateOpened, accountBalance, 
+							minBalance, interestRate));
 					gui.setSelectedAccount(model.getRowCount() - 1);
 				} catch (Exception n) {
-					JOptionPane.showMessageDialog(null, "Invalid Input!");
+					JOptionPane.showMessageDialog(null, 
+							"Invalid Input!");
 				}
 			}
 			gui.adjustColumnWidths();
@@ -177,7 +198,9 @@ public class AccountController {
 			try {
 				accountNumber = Integer.parseInt(textFromFields[0]);
 			} catch (NumberFormatException n) {
-				JOptionPane.showMessageDialog(null, "Invalid Account number!\nMust be a positive integer.");
+				JOptionPane.showMessageDialog(null, 
+						"Invalid Account number!\n"
+						+ "Must be a positive integer.");
 			}
 
 			String accountOwner = textFromFields[1];
@@ -187,7 +210,8 @@ public class AccountController {
 			try {
 				accountBalance = Double.parseDouble(textFromFields[2]);
 			} catch (NumberFormatException n) {
-				JOptionPane.showMessageDialog(null, "Invalid Balance!\nMust be an integer.");
+				JOptionPane.showMessageDialog(null, 
+						"Invalid Balance!\nMust be an integer.");
 			}
 
 			if (gui.isCheckingSelected() == true) {
@@ -195,26 +219,38 @@ public class AccountController {
 				try {
 					monthlyFee = Double.parseDouble(textFromFields[3]);
 				} catch (NumberFormatException n) {
-					JOptionPane.showMessageDialog(null, "Invalid Monthly Fee!\nMust be a positive integer.");
+					JOptionPane.showMessageDialog(null, 
+							"Invalid Monthly Fee!\n"
+							+ "Must be a positive integer.");
 				}
 				try {
-					model.updateAccount(gui.getSelectedAccountIndex(), new CheckingAccount(accountNumber, accountOwner, dateOpened, accountBalance, monthlyFee));
+					model.updateAccount(gui.getSelectedAccountIndex(), 
+							new CheckingAccount(accountNumber, 
+									accountOwner, dateOpened, 
+									accountBalance, monthlyFee));
 					gui.setSelectedAccount(selectedAccountIndex);
 				} catch (Exception n) {
-					JOptionPane.showMessageDialog(null, "Invalid Input!");
+					JOptionPane.showMessageDialog(null, 
+							"Invalid Input!");
 				}
 			} else {
 				try {
 					interestRate = Double.parseDouble(textFromFields[4]);
 					minBalance = Double.parseDouble(textFromFields[5]);
 				} catch (NumberFormatException f) {
-					JOptionPane.showMessageDialog(null, "Invalid Balance!\nMust be an integer.");
+					JOptionPane.showMessageDialog(null, 
+							"Invalid Balance!\nMust be a number.");
 				}
 				try {
-					model.updateAccount(gui.getSelectedAccountIndex(), new SavingsAccount(accountNumber, accountOwner, dateOpened, accountBalance, interestRate, minBalance));
+					model.updateAccount(gui.getSelectedAccountIndex(), 
+							new SavingsAccount(accountNumber, 
+									accountOwner, dateOpened, 
+									accountBalance, interestRate, 
+									minBalance));
 					gui.setSelectedAccount(selectedAccountIndex);
 				} catch (Exception n) {
-					JOptionPane.showMessageDialog(null, "Invalid Input!");
+					JOptionPane.showMessageDialog(null, 
+							"Invalid Input!");
 				}
 			}
 			gui.adjustColumnWidths();
@@ -223,7 +259,8 @@ public class AccountController {
 
 
 	/******************************************
-	 * Actionlistener deletes selected account, calls delete() method in model
+	 * Actionlistener deletes selected account, 
+	 * calls delete() method in model
 	 ******************************************/
 	ActionListener forDeleteButton = new ActionListener() {
 		@Override
@@ -240,7 +277,8 @@ public class AccountController {
 
 
 	/******************************************
-	 * ActionListener calls saveAsBinary() method in the model class, saves to binary
+	 * ActionListener calls saveAsBinary() method in the model class, 
+	 * saves to binary
 	 ******************************************/
 	ActionListener forSaveToBinary = new ActionListener() {
 		@Override
@@ -251,7 +289,8 @@ public class AccountController {
 			File accountFile = new File(System.getProperty("user.dir"));
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setFileHidingEnabled(false);
-			if (fileChooser.showSaveDialog(gui) == JFileChooser.APPROVE_OPTION) {
+			if (fileChooser.showSaveDialog(gui) == 
+					JFileChooser.APPROVE_OPTION) {
 				accountFile = fileChooser.getSelectedFile();
 			}
 			try {
@@ -266,14 +305,16 @@ public class AccountController {
 
 
 	/******************************************
-	 * ActionListener calls loadFromBinary() method in the model class, loads binary file
+	 * ActionListener calls loadFromBinary() 
+	 * method in the model class, loads binary file
 	 ******************************************/
 	ActionListener forOpenBinary = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			File accountFile = new File(System.getProperty("user.dir"));
 			JFileChooser fileChooser = new JFileChooser();
-			if (fileChooser.showOpenDialog(gui) == JFileChooser.APPROVE_OPTION) {
+			if (fileChooser.showOpenDialog(gui) == 
+					JFileChooser.APPROVE_OPTION) {
 				accountFile = fileChooser.getSelectedFile();
 			}
 			try {
@@ -291,7 +332,8 @@ public class AccountController {
 
 
 	/******************************************
-	 * ActionListener calls saveAsText() method in the model class, saves to txt file
+	 * ActionListener calls saveAsText() method in the model class,
+	 * saves to txt file
 	 ******************************************/
 	ActionListener forSaveToText = new ActionListener() {
 		@Override
@@ -301,7 +343,8 @@ public class AccountController {
 			File accountFile = new File(System.getProperty("user.dir"));
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setFileHidingEnabled(false);
-			if (fileChooser.showSaveDialog(gui) == JFileChooser.APPROVE_OPTION) {
+			if (fileChooser.showSaveDialog(gui) == 
+					JFileChooser.APPROVE_OPTION) {
 				accountFile = fileChooser.getSelectedFile();
 			}
 			try {
@@ -314,6 +357,10 @@ public class AccountController {
 		}
 	};
 
+	/******************************************
+	 * ActionListener calls loadFromText() method in the model class,
+	 * loads from txt file
+	 ******************************************/
 	ActionListener forLoadFromText = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -321,7 +368,8 @@ public class AccountController {
 			ArrayList<String> rawDataRead = new ArrayList<>();
 			ArrayList<Account> newAccounts = new ArrayList<>();
 			JFileChooser fileChooser = new JFileChooser();
-			if (fileChooser.showOpenDialog(gui) == JFileChooser.APPROVE_OPTION) {
+			if (fileChooser.showOpenDialog(gui) == 
+					JFileChooser.APPROVE_OPTION) {
 				accountFile = fileChooser.getSelectedFile();
 			}
 
@@ -337,8 +385,10 @@ public class AccountController {
 			}
 
 			for (int i = 0; i < rawDataRead.size(); i++){
-				//surround loop with try catch block, so that it can read files that have a couple lines changed
-				String[] accountDataAsString = rawDataRead.get(i).split(";;");
+				//surround loop with try catch block, 
+				//so that it can read files that have lines changed
+				String[] accountDataAsString = rawDataRead.get(i).split
+						(";;");
 
 				int accountNumber;
 				double balance, fee, interest, minBal;
@@ -355,10 +405,12 @@ public class AccountController {
 					fee = -1;
 				}
 
-				String withoutPercentage = accountDataAsString[6].replace("%", "");
+				String withoutPercentage = accountDataAsString[6].
+						replace("%", "");
 				interest = Double.parseDouble(withoutPercentage);
 
-				String withoutDashes = accountDataAsString[7].replace("-", "0");
+				String withoutDashes = accountDataAsString[7].
+						replace("-", "0");
 				minBal = Double.parseDouble(withoutDashes);
 
 				DateFormatSymbols dfs = new DateFormatSymbols();
@@ -378,12 +430,16 @@ public class AccountController {
 				day = Integer.parseInt(withoutComma);
 				year = Integer.parseInt(splitUpDate[2]);
 
-				GregorianCalendar date = new GregorianCalendar(year, month, day);
+				GregorianCalendar date = new GregorianCalendar
+						(year, month, day);
 
 				if(desc.equals("Checking")){
-					newAccounts.add(new CheckingAccount(accountNumber, owner, date, balance, fee));
+					newAccounts.add(new CheckingAccount
+							(accountNumber, owner, date, balance, fee));
 				} else if (desc.equals("Savings")){
-					newAccounts.add(new SavingsAccount(accountNumber, owner, date, balance, interest, minBal));
+					newAccounts.add(new SavingsAccount
+							(accountNumber, owner, date, balance, 
+									interest, minBal));
 				}
 			}
 			if(newAccounts.size()>0){
@@ -395,35 +451,47 @@ public class AccountController {
 		}
 	};
 
+	/******************************************
+	 * ActionListener calls saveAsXML() method in the model class,
+	 * saves to XML file
+	 ******************************************/
 	ActionListener forSaveXML = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try{
 
-				File accountFile = new File(System.getProperty("user.dir"));
+				// allows user to choose save location
+				File accountFile = new File(System.
+						getProperty("user.dir"));
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setFileHidingEnabled(false);
-				if (fileChooser.showSaveDialog(gui) == JFileChooser.APPROVE_OPTION) {
+				if (fileChooser.showSaveDialog(gui) == 
+						JFileChooser.APPROVE_OPTION) {
 					accountFile = fileChooser.getSelectedFile();
 				}
 
-				String requestString = AccountToString(model.getAccounts());
+				String requestString = AccountToString
+						(model.getAccounts());
 
+				//remove "bad char" from string
 				requestString = requestString.replaceFirst("^([\\W]+)<","<");
 
 				// Parse the given input
-				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				DocumentBuilderFactory factory = 
+						DocumentBuilderFactory.newInstance();
 				DocumentBuilder builder = factory.newDocumentBuilder();
-				Document doc = builder.parse(new InputSource(new StringReader(requestString)));
+				Document doc = builder.parse(new InputSource
+						(new StringReader(requestString)));
 
 				// Write the parsed document to an xml file
-				TransformerFactory transformerFactory = TransformerFactory.newInstance();
-				Transformer transformer = transformerFactory.newTransformer();
+				TransformerFactory transformerFactory = 
+						TransformerFactory.newInstance();
+				Transformer transformer = 
+						transformerFactory.newTransformer();
 				DOMSource source = new DOMSource(doc);
 				StreamResult result =  new StreamResult(accountFile);
 				transformer.transform(source, result);
-
 
 
 			} catch(IOException e1){
@@ -440,39 +508,52 @@ public class AccountController {
 
 	};
 
-
+	/******************************************
+	 * ActionListener calls loadFromXML() 
+	 * method in the model class, loads XML file
+	 ******************************************/
 	ActionListener forOpenXML = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e){
 			try{
 
-				File accountFile = new File(System.getProperty("user.dir"));
+				// allows user to choose where to load XML file from
+				File accountFile = new File(System.getProperty
+						("user.dir"));
 				JFileChooser fileChooser = new JFileChooser();
-				if (fileChooser.showOpenDialog(gui) == JFileChooser.APPROVE_OPTION) {
+				if (fileChooser.showOpenDialog(gui) == 
+						JFileChooser.APPROVE_OPTION) {
 					accountFile = fileChooser.getSelectedFile();
 				}
-				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+				DocumentBuilderFactory dbFactory = 
+						DocumentBuilderFactory.newInstance();
+				DocumentBuilder dBuilder = 
+						dbFactory.newDocumentBuilder();
 				Document doc = dBuilder.parse(accountFile);
 
 				doc.getDocumentElement().normalize();
 
-				System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+				System.out.println("Root element :" + 
+				doc.getDocumentElement().getNodeName());
 
-				NodeList nList = doc.getElementsByTagName("AccountInformation");
+				NodeList nList = doc.getElementsByTagName
+						("AccountInformation");
 
 				for (int temp = 0; temp < nList.getLength(); temp++) {
 
 					Node nNode = nList.item(temp);
 
-					System.out.println("\nCurrent Element :" + nNode.getNodeName());
+					System.out.println("\nCurrent Element :" + 
+					nNode.getNodeName());
 
 					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
 						Element eElement = (Element) nNode;
 
-						System.out.println("Account Number : " + eElement.getElementsByTagName("Number").item(0).getTextContent());
+						System.out.println("Account Number : " + 
+						eElement.getElementsByTagName("Number").
+						item(0).getTextContent());
 						System.out.println("Account Owner : " + eElement.getElementsByTagName("Owner").item(0).getTextContent());
 						System.out.println("Month : " + eElement.getElementsByTagName("Month").item(0).getTextContent());
 						System.out.println("Day : " + eElement.getElementsByTagName("Day").item(0).getTextContent());
@@ -490,6 +571,12 @@ public class AccountController {
 
 	};
 
+	/*****************************************************
+	 * Returns given string with XML formatting
+	 * 
+	 * @param s ArrayList of accounts
+	 * @return xml string of accounts
+	 ****************************************************/
 	private String AccountToString(ArrayList<Account> s) {
 
 		StringBuilder sb = new StringBuilder();
@@ -499,7 +586,8 @@ public class AccountController {
 					s.get(i).getOwner() + " " +
 					s.get(i).dateToString() + " " +
 					s.get(i).getBalance() + " ");
-			if (s.get(i).getAccountTypeDescription().equals("Checking")){
+			if (s.get(i).getAccountTypeDescription().equals
+					("Checking")){
 				sb.append("Checking" + " ");
 				sb.append(s.get(i).getMonthlyFee() + " ");
 			}
@@ -511,7 +599,8 @@ public class AccountController {
 		}
 		String[] tokens = sb.toString().split(" ");
 
-		StringBuffer xmlString = new StringBuffer("<AccountInformation>");
+		StringBuffer xmlString = new StringBuffer
+				("<AccountInformation>");
 
 		for (String t : tokens)
 			System.out.println(t);
@@ -520,30 +609,41 @@ public class AccountController {
 
 		for(int j = 0, index = 0; j < s.size(); j++)
 		{
-			xmlString.append("<Number>").append(tokens[index]).append("</Number>");
+			xmlString.append("<Number>").
+			append(tokens[index]).append("</Number>");
 			index++;
-			xmlString.append("<Owner>").append(tokens[index]).append("</Owner>");
+			xmlString.append("<Owner>").
+			append(tokens[index]).append("</Owner>");
 			index++;
-			xmlString.append("<Month>").append(tokens[index]).append("</Month>");
+			xmlString.append("<Month>").
+			append(tokens[index]).append("</Month>");
 			index++;
-			xmlString.append("<Day>").append(tokens[index]).append("</Day>");
+			xmlString.append("<Day>").
+			append(tokens[index]).append("</Day>");
 			index++;
-			xmlString.append("<Year>").append(tokens[index]).append("</Year>");
+			xmlString.append("<Year>").
+			append(tokens[index]).append("</Year>");
 			index++;
-			xmlString.append("<Balance>").append(tokens[index]).append("</Balance>");
+			xmlString.append("<Balance>").
+			append(tokens[index]).append("</Balance>");
 			index++;
 			if (s.get(j).getAccountTypeDescription().equals("Checking")){
-				xmlString.append("<Type>").append(tokens[index]).append("</Type>");
+				xmlString.append("<Type>").append(tokens[index]).
+				append("</Type>");
 				index++;
-				xmlString.append("<MonthlyFee>").append(tokens[index]).append("</MonthlyFee>");
+				xmlString.append("<MonthlyFee>").append(tokens[index]).
+				append("</MonthlyFee>");
 				index++;
 			}
 			else{
-				xmlString.append("<Type>").append(tokens[index]).append("</Type>");
+				xmlString.append("<Type>").append(tokens[index]).
+				append("</Type>");
 				index++;
-				xmlString.append("<InterestRate>").append(tokens[index]).append("</InterestRate>");
+				xmlString.append("<InterestRate>").
+				append(tokens[index]).append("</InterestRate>");
 				index++;
-				xmlString.append("<MinBalance>").append(tokens[index]).append("</MinBalance>");
+				xmlString.append("<MinBalance>").
+				append(tokens[index]).append("</MinBalance>");
 				index++;
 			}
 		}
@@ -552,6 +652,9 @@ public class AccountController {
 		return xmlString.toString();
 	}
 
+	/****************************************************
+	 *  ActionListener calls exit(), closes program.
+	 ***************************************************/
 	ActionListener exit = new ActionListener(){
 
 		@Override

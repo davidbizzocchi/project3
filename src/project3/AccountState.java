@@ -13,7 +13,12 @@ import javax.swing.JFileChooser;
 import javax.swing.table.AbstractTableModel;
 
 /**
+ * Class for JTable information on bank application GUI
+ * 
  * @author Preston Garno
+ * @author David Bizzocchi
+ * 
+ * @version November, 2015
  */
 public class AccountState extends AbstractTableModel {
 	
@@ -122,7 +127,8 @@ public class AccountState extends AbstractTableModel {
                     return accounts.get(row).getMonthlyFee();
                 }
             case 6:
-                String returnValue = Double.toString(accounts.get(row).getInterestRate()) + "%";
+                String returnValue = Double.toString(accounts.get(row).
+                		getInterestRate()) + "%";
                 return returnValue;
             case 7:
                 if (accounts.get(row).getMinBalance() == -1) {
@@ -136,7 +142,9 @@ public class AccountState extends AbstractTableModel {
     }
     
     /**An array containing column header information*/
-    private String[] colNames = new String[]{"Acct No.", "Owner", "Date Opened", "Balance", "Type", "Fee", "Interest", "Min. Bal."};
+    private String[] colNames = new String[]{"Acct No.", "Owner", 
+    		"Date Opened", "Balance", "Type", "Fee", "Interest", 
+    		"Min. Bal."};
     
     /******************************************
     * Method overrides super method and returns the name of the
@@ -154,7 +162,8 @@ public class AccountState extends AbstractTableModel {
     * @param accountFile the File the ObjectOutputStream will write to
     * @throws FileNotFoundException, IOException
     ******************************************/
-    public void saveAsBinary(File accountFile) throws FileNotFoundException, IOException {
+    public void saveAsBinary(File accountFile) 
+    		throws FileNotFoundException, IOException {
         FileOutputStream fileOut;
         fileOut = new FileOutputStream(accountFile);
         ObjectOutputStream objectOut;
@@ -167,9 +176,11 @@ public class AccountState extends AbstractTableModel {
     /******************************************
     * Method loads a binary file to the state
     * @param accountFile the File the ObjectInputStream will read
-    * @throws FileNotFoundException, IOException, {@link ClassNotFoundException}
+    * @throws FileNotFoundException, IOException, 
+    * {@link ClassNotFoundException}
     ******************************************/
-    public void loadFromBinary(File accountFile) throws IOException, ClassNotFoundException {
+    public void loadFromBinary(File accountFile) 
+    		throws IOException, ClassNotFoundException {
     	FileInputStream fileIn;
     	fileIn = new FileInputStream(accountFile);
     	ObjectInputStream objectIn = new ObjectInputStream (fileIn);
@@ -183,23 +194,38 @@ public class AccountState extends AbstractTableModel {
     	fireTableDataChanged();
     }
     
+    /**************************************************************
+     * Method that saves file as text
+     * 
+     * @param accountFile, file to save as text
+     * @throws IOException
+     *************************************************************/
     public void saveAsText(File accountFile) throws IOException{
     	FileWriter writer = new FileWriter(accountFile); 
     	for(int row = 0; row < accounts.size(); row ++) {
     		for (int col = 0; col < 8; col++){
-    			writer.write(this.getValueAt(row, col).toString() + ";;");
+    			writer.write(this.getValueAt(row, col).toString() + 
+    					";;");
     		}
     		writer.write(System.getProperty( "line.separator" ));
 		}
     	writer.close();
     }
     
+    /************************************************************
+     * Method that reads accounts from text
+     * 
+     * @param accounts being read from text
+     ***********************************************************/
     public void readFromText(ArrayList<Account> accounts){
     	clearAllAccounts();
     	this.accounts = accounts;
     	fireTableDataChanged();
     }
     
+    /***********************************************************
+     * clears accounts on file and gui
+     **********************************************************/
     private void clearAllAccounts(){
     	accounts.clear();
     	fireTableDataChanged();
